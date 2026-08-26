@@ -3193,8 +3193,13 @@ function RomImporter:gamepadpressed(_, button)
     return
   end
 
-  -- Select button: toggle Virtual Keyboard
+  -- Select button: toggle Virtual Keyboard on handhelds
   if button == "back" or button == "select" or action == "select" then
+    local isHandheld = os.getenv("HANDHELD") == "1" or os.getenv("PORTMASTER") == "1"
+      or os.getenv("POKEPORT_HANDHELD") == "1" or os.getenv("TRIMUI") == "1"
+      or os.getenv("MUOS") == "1" or os.getenv("KNULLI") == "1"
+      or os.getenv("POKEPORT_SBC") == "1" or os.getenv("ANBERNIC") == "1"
+    if not isHandheld then return end
     if okKit and Kit.VirtualKeyboard then
       if Kit.VirtualKeyboard.active then
         Kit.VirtualKeyboard.close(false)
